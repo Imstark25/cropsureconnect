@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1030256388125",
+    "project_id": "cropsureconnect",
+    "storage_bucket": "cropsureconnect.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030256388125:android:5f1c62696664a1ad42bef4",
+        "android_client_info": {
+          "package_name": "com.example.cropsureconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhj94w-lgjwBp3-_h1EIDXeVV-2-7QGOM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
