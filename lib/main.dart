@@ -1,16 +1,13 @@
-// lib/main.dart
+import 'package:cropsureconnect/settings/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_core/firebase_core.dart'; // Import
-import 'firebase_options.dart'; // Import generated options
+import 'package:cropsureconnect/home_view.dart';
 
-void main() async {
-  // Ensure Flutter is initialized
-  WidgetsFlutterBinding.ensureInitialized();
-  // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
+import 'language/localization_service.dart'; // Import the service
+
+void main() {
+  Get.put(SettingsController());
   runApp(const MyApp());
 }
 
@@ -19,14 +16,40 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Cropsureconnect',
-      debugShowCheckedModeBanner: false,
+    final SettingsController settingsController = Get.find();
+
+    return Obx(() => GetMaterialApp(
+      title: 'CropSureConnect',
+      // --- THEME DATA ---
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        fontFamily: 'Poppins',
+        primarySwatch: Colors.green,
+        scaffoldBackgroundColor: const Color(0xFFF5F5F0),
+        fontFamily: 'Inter',
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+        ),
       ),
-      // home: const DashboardView(),
-    );
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.green,
+        scaffoldBackgroundColor: const Color(0xFF121212),
+        fontFamily: 'Inter',
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF1F1F1F),
+          foregroundColor: Colors.white,
+        ),
+        cardColor: const Color(0xFF1F1F1F),
+      ),
+      themeMode: settingsController.isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
+
+      // --- LOCALIZATION SETTINGS ---
+      translations: LocalizationService(), // Your translations
+      locale: Get.deviceLocale, // Default language
+      fallbackLocale: LocalizationService.fallbackLocale, // Fallback language
+
+      home: const HomeView(),
+      debugShowCheckedModeBanner: false,
+    ));
   }
 }
