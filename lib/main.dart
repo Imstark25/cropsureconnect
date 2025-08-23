@@ -1,14 +1,14 @@
 
-import 'package:cropsureconnect/settings/settings_controller.dart';
+import 'package:cropsureconnect/seller/settings/settings_controller.dart';
 import 'package:cropsureconnect/auth/controllers/auth_controller.dart';
 import 'package:cropsureconnect/auth/service/auth_service.dart';
 import 'package:cropsureconnect/auth/views/userCheckingAuth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-import 'language/localization_service.dart';
-import 'onbording/onboarding_view.dart';
-import 'firebase_options.dart';
+import 'seller/language/localization_service.dart';
+import 'seller/onbording/onboarding_view.dart';
+import 'seller/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

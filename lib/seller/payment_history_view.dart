@@ -1,7 +1,7 @@
-import 'package:cropsureconnect/payment_history_model.dart';
+import 'package:cropsureconnect/seller/payment_history_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cropsureconnect/payment_history_controller.dart';
+import 'package:cropsureconnect/seller/payment_history_controller.dart';
 
 import 'package:intl/intl.dart';
 

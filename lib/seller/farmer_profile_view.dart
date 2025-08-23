@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cropsureconnect/farmer_profile_controller.dart';
-import 'package:cropsureconnect/edit_farmer_profile_view.dart';
+import 'package:cropsureconnect/seller/farmer_profile_controller.dart';
+import 'package:cropsureconnect/seller/edit_farmer_profile_view.dart';
 
 import 'dart:io';
 import 'package:intl/intl.dart';

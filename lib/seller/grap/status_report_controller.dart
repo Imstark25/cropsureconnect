@@ -1,4 +1,4 @@
-import 'package:cropsureconnect/grap/status_report_model.dart';
+import 'package:cropsureconnect/seller/grap/status_report_model.dart';
 import 'package:get/get.dart';
 
 

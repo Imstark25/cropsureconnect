@@ -1,4 +1,4 @@
-import 'package:cropsureconnect/grap/status_report_controller.dart';
+import 'package:cropsureconnect/seller/grap/status_report_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

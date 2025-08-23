@@ -1,10 +1,10 @@
-import 'package:cropsureconnect/settings/settings_view.dart';
+import 'package:cropsureconnect/seller/settings/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cropsureconnect/home_controller.dart';
+import 'package:cropsureconnect/seller/home_controller.dart';
 
-import 'package:cropsureconnect/farmer_profile_view.dart';
-import 'package:cropsureconnect/payment_history_view.dart';
+import 'package:cropsureconnect/seller/farmer_profile_view.dart';
+import 'package:cropsureconnect/seller/payment_history_view.dart';
 
 
 import 'grap/status_report_view.dart';
