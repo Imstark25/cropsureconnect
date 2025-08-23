@@ -1,32 +1,33 @@
-// lib/main.dart
+import 'package:cropsureconnect/auth/controllers/auth_controller.dart';
+import 'package:cropsureconnect/auth/service/auth_service.dart';
+import 'package:cropsureconnect/auth/views/userCheckingAuth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-import 'package:firebase_core/firebase_core.dart'; // Import
-import 'firebase_options.dart'; // Import generated options
+import 'firebase_options.dart';
 
 void main() async {
-  // Ensure Flutter is initialized
   WidgetsFlutterBinding.ensureInitialized();
-  // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Get.put(AuthService());
+  Get.put(AuthController());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Cropsureconnect',
       debugShowCheckedModeBanner: false,
+      title: 'Flutter GetX Firebase Auth',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
-        fontFamily: 'Poppins',
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // home: const DashboardView(),
+
+      // Use the new widget for the auth check
+      home: UserCheckingAuth(),
     );
   }
 }
