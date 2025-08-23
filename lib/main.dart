@@ -1,10 +1,9 @@
 import 'package:cropsureconnect/settings/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cropsureconnect/home_view.dart';
 
-
-import 'language/localization_service.dart'; // Import the service
+import 'language/localization_service.dart';
+import 'onbording/onboarding_view.dart';
 
 void main() {
   Get.put(SettingsController());
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
 
     return Obx(() => GetMaterialApp(
       title: 'CropSureConnect',
-      // --- THEME DATA ---
       theme: ThemeData(
         primarySwatch: Colors.green,
         scaffoldBackgroundColor: const Color(0xFFF5F5F0),
@@ -42,13 +40,12 @@ class MyApp extends StatelessWidget {
         cardColor: const Color(0xFF1F1F1F),
       ),
       themeMode: settingsController.isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
+      translations: LocalizationService(),
+      locale: Get.deviceLocale,
+      fallbackLocale: LocalizationService.fallbackLocale,
 
-      // --- LOCALIZATION SETTINGS ---
-      translations: LocalizationService(), // Your translations
-      locale: Get.deviceLocale, // Default language
-      fallbackLocale: LocalizationService.fallbackLocale, // Fallback language
-
-      home: const HomeView(),
+      // *** UPDATED: Start the app with the OnboardingView ***
+      home: const OnboardingView(),
       debugShowCheckedModeBanner: false,
     ));
   }
