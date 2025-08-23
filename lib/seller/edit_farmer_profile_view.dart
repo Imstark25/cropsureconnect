@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cropsureconnect/seller/farmer_profile_controller.dart';
 
-import 'dart:io';
-
 class EditFarmerProfileView extends StatelessWidget {
   const EditFarmerProfileView({super.key});
 

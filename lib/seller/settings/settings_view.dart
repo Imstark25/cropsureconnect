@@ -1,9 +1,9 @@
+import 'package:cropsureconnect/auth/views/login_page.dart';
 import 'package:cropsureconnect/seller/settings/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:cropsureconnect/seller/farmer_profile_view.dart';
-
 
 import '../language/language_selection_view.dart'; // Import the new view
 
@@ -22,7 +22,10 @@ class SettingsView extends StatelessWidget {
         centerTitle: true,
         title: Text(
           'settings_title'.tr, // Translated
-          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -34,13 +37,15 @@ class SettingsView extends StatelessWidget {
             _buildSettingsGroup(
               title: 'General',
               children: [
-                Obx(() => _buildToggleItem(
-                  title: 'dark_mode'.tr, // Translated
-                  icon: Icons.dark_mode,
-                  iconColor: Colors.black,
-                  value: controller.isDarkMode.value,
-                  onChanged: controller.toggleDarkMode,
-                )),
+                Obx(
+                  () => _buildToggleItem(
+                    title: 'dark_mode'.tr, // Translated
+                    icon: Icons.dark_mode,
+                    iconColor: Colors.black,
+                    value: controller.isDarkMode.value,
+                    onChanged: controller.toggleDarkMode,
+                  ),
+                ),
               ],
             ),
             _buildSettingsGroup(
@@ -63,13 +68,15 @@ class SettingsView extends StatelessWidget {
             _buildSettingsGroup(
               title: 'notifications'.tr, // Translated
               children: [
-                Obx(() => _buildToggleItem(
-                  title: 'notifications'.tr, // Translated
-                  icon: Icons.notifications,
-                  iconColor: Colors.green,
-                  value: controller.areNotificationsOn.value,
-                  onChanged: controller.toggleNotifications,
-                )),
+                Obx(
+                  () => _buildToggleItem(
+                    title: 'notifications'.tr, // Translated
+                    icon: Icons.notifications,
+                    iconColor: Colors.green,
+                    value: controller.areNotificationsOn.value,
+                    onChanged: controller.toggleNotifications,
+                  ),
+                ),
               ],
             ),
             _buildSettingsGroup(
@@ -79,13 +86,17 @@ class SettingsView extends StatelessWidget {
                   title: 'language'.tr, // Translated
                   icon: Icons.language,
                   iconColor: Colors.purple,
-                  onTap: () => Get.to(() => const LanguageSelectionView()), // Navigate to new screen
+                  onTap: () => Get.to(
+                    () => const LanguageSelectionView(),
+                  ), // Navigate to new screen
                 ),
                 _buildNavigationItem(
                   title: 'logout'.tr, // Translated
                   icon: Icons.logout,
                   iconColor: Colors.red,
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(() => LoginPage());
+                  },
                 ),
               ],
             ),
@@ -132,7 +143,10 @@ class SettingsView extends StatelessWidget {
     );
   }
 
-  Widget _buildSettingsGroup({required String title, required List<Widget> children}) {
+  Widget _buildSettingsGroup({
+    required String title,
+    required List<Widget> children,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -140,7 +154,10 @@ class SettingsView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Text(
             title,
-            style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         Container(
@@ -156,19 +173,34 @@ class SettingsView extends StatelessWidget {
     );
   }
 
-  Widget _buildNavigationItem({required String title, required IconData icon, required Color iconColor, required VoidCallback onTap}) {
+  Widget _buildNavigationItem({
+    required String title,
+    required IconData icon,
+    required Color iconColor,
+    required VoidCallback onTap,
+  }) {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: iconColor.withOpacity(0.1),
         child: Icon(icon, color: iconColor),
       ),
       title: Text(title),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+      trailing: const Icon(
+        Icons.arrow_forward_ios,
+        color: Colors.grey,
+        size: 16,
+      ),
       onTap: onTap,
     );
   }
 
-  Widget _buildToggleItem({required String title, required IconData icon, required Color iconColor, required bool value, required ValueChanged<bool> onChanged}) {
+  Widget _buildToggleItem({
+    required String title,
+    required IconData icon,
+    required Color iconColor,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: iconColor.withOpacity(0.1),
