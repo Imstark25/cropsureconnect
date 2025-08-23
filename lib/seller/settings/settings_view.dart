@@ -1,8 +1,8 @@
-import 'package:cropsureconnect/settings/settings_controller.dart';
+import 'package:cropsureconnect/seller/settings/settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:cropsureconnect/farmer_profile_view.dart';
+import 'package:cropsureconnect/seller/farmer_profile_view.dart';
 
 
 import '../language/language_selection_view.dart'; // Import the new view

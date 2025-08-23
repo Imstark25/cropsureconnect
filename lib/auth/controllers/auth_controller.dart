@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cropsureconnect/seller/onbording/onboarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Ensure your import paths are correct for your project
 import 'package:cropsureconnect/auth/service/auth_service.dart';
 import 'package:cropsureconnect/buyer/views/buyer_dashboard_screen.dart';
-import 'package:cropsureconnect/seller/views/home_page.dart';
 import 'package:cropsureconnect/auth/views/login_page.dart';
 
 class AuthController extends GetxController {
@@ -29,9 +29,12 @@ class AuthController extends GetxController {
   Future<void> _handleUserNavigation(String uid) async {
     try {
       // Step 1: Check if the user is in the 'Sellers' collection
-      DocumentSnapshot sellerDoc = await _db.collection('Sellers').doc(uid).get();
+      DocumentSnapshot sellerDoc = await _db
+          .collection('Sellers')
+          .doc(uid)
+          .get();
       if (sellerDoc.exists) {
-        Get.offAll(() => SellerHomePage());
+        Get.offAll(() => OnboardingView());
         return; // Exit after finding the role
       }
 
@@ -45,7 +48,6 @@ class AuthController extends GetxController {
       // Step 3: If user exists in Auth but not in any role collection
       Get.snackbar("Login Error", "Could not find user details.");
       _authService.signOut();
-
     } catch (e) {
       Get.snackbar("Error", "An error occurred: ${e.toString()}");
       _authService.signOut();
@@ -56,7 +58,9 @@ class AuthController extends GetxController {
     isLoading.value = true;
     try {
       final user = await _authService.signInWithEmail(
-          emailController.text.trim(), passwordController.text.trim());
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      );
       if (user != null) {
         await _handleUserNavigation(user.uid);
       }
@@ -69,7 +73,9 @@ class AuthController extends GetxController {
     isLoading.value = true;
     try {
       final user = await _authService.signUpWithEmail(
-          emailController.text.trim(), passwordController.text.trim());
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      );
       if (user != null) {
         await _authService.addUserDetails(
           user.uid,

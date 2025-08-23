@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cropsureconnect/seller/onbording/onboarding_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Ensure your import paths are correct for your project
 import 'package:cropsureconnect/buyer/views/buyer_dashboard_screen.dart';
-import 'package:cropsureconnect/seller/views/home_page.dart';
 import 'package:cropsureconnect/auth/views/login_page.dart';
 
 class UserCheckingAuth extends StatelessWidget {
@@ -54,7 +54,7 @@ class UserCheckingAuth extends StatelessWidget {
               if (roleSnapshot.hasData) {
                 final String? role = roleSnapshot.data;
                 if (role == 'seller') {
-                  return SellerHomePage();
+                  return OnboardingView();
                 } else if (role == 'buyer') {
                   return BuyerDashboardScreen();
                 }

@@ -1,4 +1,4 @@
-import 'package:cropsureconnect/payment_history_model.dart';
+import 'package:cropsureconnect/seller/payment_history_model.dart';
 
 
 import 'package:collection/collection.dart';
