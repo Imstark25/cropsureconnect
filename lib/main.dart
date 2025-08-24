@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'seller/language/localization_service.dart';
-import 'seller/onbording/onboarding_view.dart';
 import 'seller/firebase_options.dart';
 
 void main() async {

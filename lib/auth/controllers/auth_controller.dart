@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cropsureconnect/seller/onbording/onboarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// Ensure your import paths are correct for your project
+// Ensure all your import paths are correct
 import 'package:cropsureconnect/auth/service/auth_service.dart';
 import 'package:cropsureconnect/buyer/views/buyer_dashboard_screen.dart';
+import 'package:cropsureconnect/seller/onbording/onboarding_view.dart';
 import 'package:cropsureconnect/auth/views/login_page.dart';
 
 class AuthController extends GetxController {
   final AuthService _authService = Get.find<AuthService>();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  // Controllers for the login/signup text fields
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
@@ -25,28 +26,47 @@ class AuthController extends GetxController {
     selectedRole.value = role;
   }
 
-  // Centralized navigation handler that checks both collections
+  // This is the main method called from the LoginPage
+  void login() async {
+    isLoading.value = true;
+    try {
+      // Step 1: Verify email and password with Firebase
+      final user = await _authService.signInWithEmail(
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      );
+      // If login is successful, 'user' will not be null
+      if (user != null) {
+        // Step 2: Handle the navigation based on the user's role
+        await _handleUserNavigation(user.uid);
+      }
+    } finally {
+      isLoading.value = false;
+      _clearControllers();
+    }
+  }
+
+  // This private helper function checks Firestore and navigates
   Future<void> _handleUserNavigation(String uid) async {
     try {
-      // Step 1: Check if the user is in the 'Sellers' collection
-      DocumentSnapshot sellerDoc = await _db
-          .collection('Sellers')
-          .doc(uid)
-          .get();
+      // Step 3: Check if the user is in the 'Sellers' collection
+      DocumentSnapshot sellerDoc = await _db.collection('Sellers').doc(uid).get();
       if (sellerDoc.exists) {
-        Get.offAll(() => OnboardingView());
-        return; // Exit after finding the role
+        // User is a seller, navigate to their onboarding view
+        Get.offAll(() => const OnboardingView());
+        return;
       }
 
-      // Step 2: If not a seller, check the 'Buyers' collection
+      // Step 4: If not a seller, check the 'Buyers' collection
       DocumentSnapshot buyerDoc = await _db.collection('Buyers').doc(uid).get();
       if (buyerDoc.exists) {
-        Get.offAll(() => BuyerDashboardScreen());
-        return; // Exit after finding the role
+        // User is a buyer, navigate to their dashboard
+        Get.offAll(() => const BuyerDashboardScreen());
+        return;
       }
 
-      // Step 3: If user exists in Auth but not in any role collection
-      Get.snackbar("Login Error", "Could not find user details.");
+      // Step 5: If user is not in either collection, show an error and sign out
+      Get.snackbar("Login Error", "Could not find user details for this role.");
       _authService.signOut();
     } catch (e) {
       Get.snackbar("Error", "An error occurred: ${e.toString()}");
@@ -54,20 +74,7 @@ class AuthController extends GetxController {
     }
   }
 
-  void login() async {
-    isLoading.value = true;
-    try {
-      final user = await _authService.signInWithEmail(
-        emailController.text.trim(),
-        passwordController.text.trim(),
-      );
-      if (user != null) {
-        await _handleUserNavigation(user.uid);
-      }
-    } finally {
-      isLoading.value = false;
-    }
-  }
+  // --- Other Methods (Signup, Logout, etc.) ---
 
   void signUp() async {
     isLoading.value = true;
@@ -84,6 +91,7 @@ class AuthController extends GetxController {
           phoneController.text.trim(),
           selectedRole.value,
         );
+        // After creating the user, use the same handler to navigate
         await _handleUserNavigation(user.uid);
       }
     } finally {
