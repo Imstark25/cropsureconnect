@@ -1,3 +1,5 @@
+// lib/seller/home_view.dart
+
 import 'package:cropsureconnect/seller/settings/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,11 +8,9 @@ import 'package:cropsureconnect/seller/home_controller.dart';
 import 'package:cropsureconnect/seller/farmer_profile_view.dart';
 import 'package:cropsureconnect/seller/payment_history_view.dart';
 
-
 import 'grap/status_report_view.dart';
 import 'home_model.dart';
 import 'language/language_selection_view.dart';
-
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -23,11 +23,14 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('app_title'.tr, style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
+        title: Text('app_title'.tr,
+            style: const TextStyle(
+                color: Colors.black87, fontWeight: FontWeight.bold)),
         actions: [
           TextButton(
             onPressed: () => Get.to(() => const LanguageSelectionView()),
-            child: Text('language'.tr, style: const TextStyle(color: Colors.black54)),
+            child: Text('language'.tr,
+                style: const TextStyle(color: Colors.black54)),
           ),
           IconButton(
             onPressed: () {},
@@ -56,11 +59,8 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  // *** UPDATED WIDGET TO HANDLE ASSET AND NETWORK IMAGES ***
   Widget _buildCategoryItem(Category category) {
-    // Check if the icon path is a local asset or a network URL
     final bool isAsset = !category.icon.startsWith('http');
-
     return Container(
       width: 80,
       margin: const EdgeInsets.only(right: 12),
@@ -68,8 +68,9 @@ class HomeView extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 35,
-            // Use AssetImage for local files and NetworkImage for URLs
-            backgroundImage: isAsset ? AssetImage(category.icon) as ImageProvider : NetworkImage(category.icon),
+            backgroundImage: isAsset
+                ? AssetImage(category.icon) as ImageProvider
+                : NetworkImage(category.icon),
           ),
           const SizedBox(height: 5),
           Text(
@@ -83,6 +84,107 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
+
+  // --- START OF FIX ---
+
+  Widget _buildProductCard(Product product) {
+    // Check if the image path is empty or a network URL.
+    final bool isAsset = product.image.startsWith('assets/');
+    final bool isNetworkImage = product.image.startsWith('http');
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: Colors.grey.shade300),
+      ),
+      color: const Color(0xFFF5F5F0),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: 80,
+                height: 80,
+                // Conditionally render the image based on the path
+                child: isAsset
+                    ? Image.asset(
+                        // Use Image.asset for local files
+                        product.image,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            _buildImageErrorFallback(product),
+                      )
+                    : isNetworkImage
+                        ? Image.network(
+                            // Use Image.network for URLs
+                            product.image,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                _buildImageErrorFallback(product),
+                          )
+                        : _buildImageErrorFallback(
+                            product), // Show fallback if path is empty or invalid
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(product.name,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold)),
+                  const Text('General', style: TextStyle(color: Colors.grey)),
+                  Text(product.seller,
+                      style: const TextStyle(color: Colors.grey)),
+                  Text('Qty: ${product.quantity}',
+                      style: const TextStyle(color: Colors.grey)),
+                  Text(product.location,
+                      style: const TextStyle(color: Colors.grey)),
+                  Text('₹ ${product.price.toStringAsFixed(0)}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14)),
+                ],
+              ),
+            ),
+            Column(
+              children: [
+                _buildIconButton(Icons.favorite_border),
+                const SizedBox(height: 4),
+                _buildIconButton(Icons.phone_outlined),
+                const SizedBox(height: 4),
+                _buildIconButton(Icons.chat_bubble_outline),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Helper widget for a consistent fallback UI
+  Widget _buildImageErrorFallback(Product product) {
+    return Container(
+      width: 80,
+      height: 80,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(color: Colors.grey.shade300)),
+      child: Center(
+          child: Text(product.name.substring(0, 1),
+              style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green))),
+    );
+  }
+
+  // --- END OF FIX ---
 
   // ... (rest of the HomeView class remains the same)
 
@@ -164,7 +266,7 @@ class HomeView extends StatelessWidget {
           const Icon(Icons.mic, color: Colors.grey),
           const VerticalDivider(thickness: 1, indent: 8, endIndent: 8),
           Obx(
-                () => DropdownButton<String>(
+            () => DropdownButton<String>(
               value: controller.selectedLocation.value,
               underline: const SizedBox(),
               icon: const Icon(Icons.arrow_drop_down, color: Colors.grey),
@@ -194,7 +296,8 @@ class HomeView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('category_title'.tr,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             TextButton.icon(
               icon: const Icon(Icons.filter_list, size: 20),
               label: Text('filter'.tr),
@@ -207,7 +310,8 @@ class HomeView extends StatelessWidget {
         SizedBox(
           height: 100,
           child: Obx(() {
-            if (controller.isLoading.value && controller.allCategories.isEmpty) {
+            if (controller.isLoading.value &&
+                controller.allCategories.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             }
             return ListView.builder(
@@ -239,24 +343,26 @@ class HomeView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Filter by Category", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Text("Filter by Category",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             Obx(() => Wrap(
-              spacing: 8.0,
-              runSpacing: 8.0,
-              children: controller.allCategories.map((category) {
-                final isSelected = controller.selectedCategories.contains(category.name);
-                return FilterChip(
-                  label: Text(category.name),
-                  selected: isSelected,
-                  onSelected: (selected) {
-                    controller.toggleCategoryFilter(category.name);
-                  },
-                  selectedColor: Colors.green.withOpacity(0.3),
-                  checkmarkColor: Colors.green,
-                );
-              }).toList(),
-            )),
+                  spacing: 8.0,
+                  runSpacing: 8.0,
+                  children: controller.allCategories.map((category) {
+                    final isSelected =
+                        controller.selectedCategories.contains(category.name);
+                    return FilterChip(
+                      label: Text(category.name),
+                      selected: isSelected,
+                      onSelected: (selected) {
+                        controller.toggleCategoryFilter(category.name);
+                      },
+                      selectedColor: Colors.green.withOpacity(0.3),
+                      checkmarkColor: Colors.green,
+                    );
+                  }).toList(),
+                )),
             const SizedBox(height: 20),
           ],
         ),
@@ -279,7 +385,8 @@ class HomeView extends StatelessWidget {
 
   Widget _buildProductList(List<Product> products) {
     if (products.isEmpty) {
-      return const Center(child: Padding(
+      return const Center(
+          child: Padding(
         padding: EdgeInsets.all(32.0),
         child: Text("No products match the filter."),
       ));
@@ -292,78 +399,6 @@ class HomeView extends StatelessWidget {
         final product = products[index];
         return _buildProductCard(product);
       },
-    );
-  }
-
-  Widget _buildProductCard(Product product) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.grey.shade300),
-      ),
-      color: const Color(0xFFF5F5F0),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                product.image,
-                width: 80,
-                height: 80,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(color: Colors.grey.shade300)),
-                  child: Center(
-                      child: Text(product.name.substring(0, 1),
-                          style: const TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green))),
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(product.name,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
-                  const Text('General', style: TextStyle(color: Colors.grey)),
-                  Text(product.seller,
-                      style: const TextStyle(color: Colors.grey)),
-                  Text('Qty: ${product.quantity}',
-                      style: const TextStyle(color: Colors.grey)),
-                  Text(product.location,
-                      style: const TextStyle(color: Colors.grey)),
-                  Text('₹ ${product.price.toStringAsFixed(0)}',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 14)),
-                ],
-              ),
-            ),
-            Column(
-              children: [
-                _buildIconButton(Icons.favorite_border),
-                const SizedBox(height: 4),
-                _buildIconButton(Icons.phone_outlined),
-                const SizedBox(height: 4),
-                _buildIconButton(Icons.chat_bubble_outline),
-              ],
-            )
-          ],
-        ),
-      ),
     );
   }
 
@@ -394,10 +429,14 @@ class HomeView extends StatelessWidget {
       },
       items: [
         BottomNavigationBarItem(icon: const Icon(Icons.home), label: 'home'.tr),
-        BottomNavigationBarItem(icon: const Icon(Icons.history), label: 'payment_history'.tr),
-        BottomNavigationBarItem(icon: const Icon(Icons.person_outline), label: 'profile'.tr),
-        BottomNavigationBarItem(icon: const Icon(Icons.show_chart), label: 'status'.tr),
-        BottomNavigationBarItem(icon: const Icon(Icons.settings), label: 'settings'.tr),
+        BottomNavigationBarItem(
+            icon: const Icon(Icons.history), label: 'payment_history'.tr),
+        BottomNavigationBarItem(
+            icon: const Icon(Icons.person_outline), label: 'profile'.tr),
+        BottomNavigationBarItem(
+            icon: const Icon(Icons.show_chart), label: 'status'.tr),
+        BottomNavigationBarItem(
+            icon: const Icon(Icons.settings), label: 'settings'.tr),
       ],
     );
   }

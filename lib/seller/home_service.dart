@@ -1,4 +1,4 @@
-
+// lib/seller/home_service.dart
 
 import 'home_model.dart';
 
@@ -30,18 +30,29 @@ class HomeService {
       ),
     ];
 
-    // *** UPDATED CATEGORIES WITH LOCAL ASSET FOR GRAINS ***
+    // *** UPDATED CATEGORIES WITH LOCAL ASSET PATHS ***
     final categories = [
-      Category(name: 'Grains', icon: 'assets/grain_category.jpg'), // Local asset path
-      Category(name: 'Spices', icon: 'https://picsum.photos/seed/spices/200/200'),
-      Category(name: 'Vegetables', icon: 'https://picsum.photos/seed/veg/200/200'),
-      Category(name: 'Fruits', icon: 'https://picsum.photos/seed/fruits/200/200'),
+      Category(
+          name: 'Grains',
+          icon: 'assets/images/grains.jpeg'), // <-- Added this asset
+      Category(
+          name: 'Spices',
+          icon: 'assets/images/spices.jpeg'), // <-- Added this asset
+      Category(
+          name: 'Vegetables',
+          icon: 'assets/images/vegetable.jpeg'), // <-- Added this asset
+      Category(
+          name: 'Fruits',
+          icon: 'assets/images/fruites.jpeg'), // <-- Added this asset
+      // Example of other categories if you want to add them:
+      // Category(name: 'Oil Seeds', icon: 'assets/images/oilseeds.jpeg'),
+      // Category(name: 'Dairy', icon: 'assets/images/dairy.jpeg'),
     ];
 
     final products = [
       Product(
         name: 'Ponni Rice',
-        image: '',
+        image: 'assets/images/rice.jpeg', // Example product image
         seller: 'Salem Farmers Co.',
         quantity: 250,
         location: 'Salem',
@@ -49,7 +60,7 @@ class HomeService {
       ),
       Product(
         name: 'Black Pepper',
-        image: '',
+        image: 'assets/images/spices.jpeg', // Example product image
         seller: 'Yercaud Spice Inc.',
         quantity: 80,
         location: 'Yercaud',
@@ -57,19 +68,35 @@ class HomeService {
       ),
       Product(
         name: 'Turmeric Finger',
-        image: 'https://picsum.photos/seed/turmeric/200/200',
+        image: 'assets/images/spices.jpeg', // Example product image
         seller: 'Erode Traders',
-        quantity: 150,
+        quantity: 120,
         location: 'Erode',
         price: 120,
       ),
       Product(
         name: 'Salem Mangoes',
-        image: 'https://picsum.photos/seed/mangoes/200/200',
+        image: 'assets/images/fruites.jpeg', // Example product image
         seller: 'Salem Farmers Co.',
         quantity: 500,
         location: 'Salem',
         price: 80,
+      ),
+      Product(
+        name: 'Fresh Cabbage',
+        image: 'assets/images/vegetable.jpeg', // Example product image
+        seller: 'Ooty Greens',
+        quantity: 300,
+        location: 'Ooty',
+        price: 30,
+      ),
+      Product(
+        name: 'Wheat Grain',
+        image: 'assets/images/wheat.jpeg', // Example product image
+        seller: 'Punjab Fields',
+        quantity: 1000,
+        location: 'Ludhiana',
+        price: 25,
       ),
     ];
 

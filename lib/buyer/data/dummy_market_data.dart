@@ -1,10 +1,9 @@
 import '../models/market_crop_model.dart';
 
-
 // This list contains only the data needed for the Market Screen.
 final List<MarketCropModel> dummyMarketCrops = [
   MarketCropModel(
-    imagePath: 'assets/images/rice.png',
+    imagePath: 'assets/images/rice.jpeg',
     name: 'Basmati Rice',
     variety: 'Pusa 1121',
     originCountry: 'India',
@@ -14,7 +13,7 @@ final List<MarketCropModel> dummyMarketCrops = [
     isNegotiable: true,
   ),
   MarketCropModel(
-    imagePath: 'assets/images/apples.png',
+    imagePath: 'assets/images/apple.jpg',
     name: 'Organic Apples',
     variety: 'Gala',
     originCountry: 'Spain',
@@ -25,7 +24,7 @@ final List<MarketCropModel> dummyMarketCrops = [
     isPreBook: true,
   ),
   MarketCropModel(
-    imagePath: 'assets/images/wheat.png',
+    imagePath: 'assets/images/wheat.jpeg',
     name: 'Milling Wheat',
     variety: 'Hard Red Winter',
     originCountry: 'USA',

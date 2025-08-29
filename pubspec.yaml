@@ -42,6 +42,8 @@ flutter:
 
   assets:
     - assets/
+    - assets/images/
+    - assets/lottie/
     # If you have sub-folders for images or Lottie animations, declare them
     # - assets/images/
     # - assets/animations/

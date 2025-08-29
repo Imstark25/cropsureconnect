@@ -1,4 +1,3 @@
-
 // 1. THIS IS THE FIRST FIX: Import the dummy data file.
 
 import 'package:cropsureconnect/buyer/models/importer_profile_model.dart';
@@ -26,7 +25,8 @@ class HomeContentScreen extends StatelessWidget {
             ),
           ),
         ),
-        title: const Text('CropsureConnect', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('CropsureConnect',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
             icon: const Icon(Icons.chat_bubble_outline),
@@ -36,7 +36,8 @@ class HomeContentScreen extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60.0),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Search for products...',
@@ -110,7 +111,8 @@ class HomeContentScreen extends StatelessWidget {
           avatar: const Icon(Icons.star, color: Colors.white, size: 16),
           label: Text(
             '${profile.trustScore}',
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
           ),
           backgroundColor: const Color(0xFFFF6600),
           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -119,7 +121,8 @@ class HomeContentScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoCard(BuildContext context, {
+  Widget _buildInfoCard(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String value,
@@ -143,12 +146,14 @@ class HomeContentScreen extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.grey[600], fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     value,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

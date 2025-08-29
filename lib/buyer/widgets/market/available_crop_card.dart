@@ -1,6 +1,8 @@
+// lib/buyer/widgets/available_crop_card.dart
+
 import 'package:flutter/material.dart';
 import 'package:cropsureconnect/buyer/models/market_crop_model.dart';
-import 'certification_badge.dart';
+import 'certification_badge.dart'; // Assuming this file exists
 
 class AvailableCropCard extends StatelessWidget {
   final MarketCropModel crop;
@@ -26,8 +28,18 @@ class AvailableCropCard extends StatelessWidget {
                     width: 100,
                     height: 100,
                     color: Colors.grey[200],
-                    // child: Image.asset(crop.imagePath, fit: BoxFit.cover), // Use your image asset
-                    child: const Icon(Icons.image, size: 50, color: Colors.grey),
+                    // --- FIX: Use the correct Image.asset syntax ---
+                    // It now dynamically loads the image from the crop model.
+                    child: Image.asset(
+                      crop.imagePath,
+                      fit: BoxFit.cover,
+                      // Add an error builder for robustness
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(Icons.broken_image,
+                            size: 50, color: Colors.grey);
+                      },
+                    ),
+                    // --- END OF FIX ---
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -36,12 +48,14 @@ class AvailableCropCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('${crop.name} (${crop.variety})',
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 4),
                       Text('Origin: ${crop.originCountry}',
                           style: TextStyle(color: Colors.grey[600])),
                       Text('By: ${crop.farmerInfo}',
-                          style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+                          style:
+                              TextStyle(color: Colors.grey[600], fontSize: 12)),
                       const SizedBox(height: 8),
                       Wrap(
                         spacing: 6,
@@ -62,15 +76,18 @@ class AvailableCropCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Available Volume', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                    const Text('Available Volume',
+                        style: TextStyle(color: Colors.grey, fontSize: 12)),
                     Text('${crop.availableVolumeTons} tons',
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16)),
                   ],
                 ),
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: crop.isPreBook ? Colors.blue : Colors.green,
+                    backgroundColor:
+                        crop.isPreBook ? Colors.blue : Colors.green,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
