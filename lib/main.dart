@@ -1,4 +1,4 @@
-
+import 'package:cropsureconnect/buyer/services/buyer_service.dart';
 import 'package:cropsureconnect/seller/settings/settings_controller.dart';
 import 'package:cropsureconnect/auth/controllers/auth_controller.dart';
 import 'package:cropsureconnect/auth/service/auth_service.dart';
@@ -15,6 +15,7 @@ void main() async {
   Get.put(AuthService());
   Get.put(SettingsController());
   Get.put(AuthController());
+  Get.put(BuyerService());
   runApp(MyApp());
 }
 
@@ -24,35 +25,37 @@ class MyApp extends StatelessWidget {
     final SettingsController settingsController = Get.find();
 
     return Obx(() => GetMaterialApp(
-      title: 'CropSureConnect',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        scaffoldBackgroundColor: const Color(0xFFF5F5F0),
-        fontFamily: 'Inter',
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-        ),
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.green,
-        scaffoldBackgroundColor: const Color(0xFF121212),
-        fontFamily: 'Inter',
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF1F1F1F),
-          foregroundColor: Colors.white,
-        ),
-        cardColor: const Color(0xFF1F1F1F),
-      ),
-      themeMode: settingsController.isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
-      translations: LocalizationService(),
-      locale: Get.deviceLocale,
-      fallbackLocale: LocalizationService.fallbackLocale,
+          title: 'CropSureConnect',
+          theme: ThemeData(
+            primarySwatch: Colors.green,
+            scaffoldBackgroundColor: const Color(0xFFF5F5F0),
+            fontFamily: 'Inter',
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+            ),
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            primarySwatch: Colors.green,
+            scaffoldBackgroundColor: const Color(0xFF121212),
+            fontFamily: 'Inter',
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xFF1F1F1F),
+              foregroundColor: Colors.white,
+            ),
+            cardColor: const Color(0xFF1F1F1F),
+          ),
+          themeMode: settingsController.isDarkMode.value
+              ? ThemeMode.dark
+              : ThemeMode.light,
+          translations: LocalizationService(),
+          locale: Get.deviceLocale,
+          fallbackLocale: LocalizationService.fallbackLocale,
 
-      // *** UPDATED: Start the app with the OnboardingView ***
-      home:  UserCheckingAuth(),
-      debugShowCheckedModeBanner: false,
-    ));
+          // *** UPDATED: Start the app with the OnboardingView ***
+          home: UserCheckingAuth(),
+          debugShowCheckedModeBanner: false,
+        ));
   }
 }

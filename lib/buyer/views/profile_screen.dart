@@ -15,13 +15,31 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  // This Future will now be initialized in _loadProfile
   Future<ImporterProfileModel>? _profileFuture;
+
+  // This Get.find() call will now succeed
   final BuyerService buyerService = Get.find<BuyerService>();
   final User? currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
     super.initState();
+
+    // --- FIX: REGISTER YOUR SERVICES AND CONTROLLERS HERE ---
+    // This puts the dependencies into GetX's memory so Get.find() can locate them.
+    // We check if they are already registered to avoid errors.
+    if (!Get.isRegistered<BuyerService>()) {
+      Get.put(BuyerService());
+    }
+    if (!Get.isRegistered<AuthController>()) {
+      Get.put(AuthController());
+    }
+    if (!Get.isRegistered<DashboardController>()) {
+      Get.put(DashboardController());
+    }
+    // --- END OF FIX ---
+
     _loadProfile();
   }
 
@@ -44,6 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
+            // Display the actual error from the snapshot for better debugging
             return Center(child: Text("Error: ${snapshot.error}"));
           }
           if (snapshot.hasData) {
@@ -101,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _buildInfoRow(
                       'Trust Level',
                       profile.trustLevel.name.capitalizeFirst!,
-                      trailing: Icon(Icons.shield, color: Colors.blue),
+                      trailing: const Icon(Icons.shield, color: Colors.blue),
                     ),
                     _buildInfoRow(
                       'Farmer Ratings',
@@ -125,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // --- HELPER WIDGETS ---
+  // --- HELPER WIDGETS (No changes needed) ---
   Widget _buildHeader(ImporterProfileModel profile) {
     return Card(
       elevation: 2,
@@ -136,7 +155,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Row(
               children: [
-                CircleAvatar(radius: 28, child: Icon(Icons.business, size: 28)),
+                const CircleAvatar(
+                    radius: 28, child: Icon(Icons.business, size: 28)),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
