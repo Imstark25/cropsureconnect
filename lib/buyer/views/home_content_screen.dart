@@ -1,192 +1,161 @@
-import 'package:cropsureconnect/buyer/widgets/home/home_header_widget.dart';
-import 'package:cropsureconnect/buyer/widgets/home/quick_stats_grid.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:cropsureconnect/buyer/models/importer_profile_model.dart';
-import 'package:cropsureconnect/buyer/services/buyer_service.dart';
 
-class HomeContentScreen extends StatefulWidget {
+// 1. THIS IS THE FIRST FIX: Import the dummy data file.
+
+import 'package:cropsureconnect/buyer/models/importer_profile_model.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../data/dummy_data.dart';
+
+class HomeContentScreen extends StatelessWidget {
   const HomeContentScreen({super.key});
 
   @override
-  State<HomeContentScreen> createState() => _HomeContentScreenState();
-}
-
-class _HomeContentScreenState extends State<HomeContentScreen> {
-  Future<ImporterProfileModel>? _profileFuture;
-  
-  final BuyerService buyerService = Get.find<BuyerService>();
-  final User? currentUser = FirebaseAuth.instance.currentUser;
-
-  @override
-  void initState() {
-    super.initState();
-    if (currentUser != null) {
-      _profileFuture = buyerService.getBuyerProfile(currentUser!.uid);
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // This now works because the object is imported correctly
+    final ImporterProfileModel profile = dummyImporterProfile;
+
     return Scaffold(
-      body: FutureBuilder<ImporterProfileModel>(
-        future: _profileFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (snapshot.hasData) {
-            final profile = snapshot.data!;
-            return SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // 1. Header
-                    HomeHeader(profile: profile),
-
-                    // 2. Quick Stats Grid
-                    QuickStatsGrid(profile: profile),
-                    const SizedBox(height: 16),
-                    
-                    // 3. Seasonal Demand Banner
-                    _buildSeasonalDemandBanner(profile.seasonalDemand),
-                    const SizedBox(height: 24),
-                    
-                    // 4. Crops Interested
-                    _buildInterestedCrops(profile.cropsInterestedIn),
-                    const SizedBox(height: 24),
-
-                    // 5. Recent Activity
-                    _buildRecentActivity(profile.recentActivity),
-                    const SizedBox(height: 24),
-                    
-                    // 6. Call-to-Action Buttons
-                    _buildActionButtons(),
-                    const SizedBox(height: 24),
-                  ],
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFFFF8C00), Color(0xFFFF6600)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        title: const Text('CropsureConnect', style: TextStyle(fontWeight: FontWeight.bold)),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.chat_bubble_outline),
+            onPressed: () {},
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search for products...',
+                prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
                 ),
+                contentPadding: EdgeInsets.zero,
               ),
-            );
-          }
-          return const Center(child: Text('Profile not found.'));
-        },
-      ),
-    );
-  }
-
-  // --- Helper Widgets specific to this screen ---
-  
-  Widget _buildSeasonalDemandBanner(String demand) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Container(
-        padding: const EdgeInsets.all(20.0),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          gradient: LinearGradient(
-            colors: [Colors.teal.shade300, Colors.green.shade400],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            ),
           ),
         ),
-        child: Text(
-          demand,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+      ),
+      backgroundColor: const Color(0xFFF5F5F5),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            _buildHeader(profile),
+            const SizedBox(height: 24),
+            _buildInfoCard(
+              context,
+              icon: Icons.eco,
+              title: 'Main Crop of Interest',
+              value: profile.mainCropInterest,
+              color: Colors.green,
+            ),
+            const SizedBox(height: 16),
+            _buildInfoCard(
+              context,
+              icon: Icons.history,
+              title: 'Last Transaction',
+              value: profile.lastTransactionSummary,
+              color: Colors.blue,
+            ),
+            const SizedBox(height: 16),
+            _buildInfoCard(
+              context,
+              icon: Icons.pending_actions,
+              title: 'Pending Bookings',
+              value: '${profile.pendingBookingsCount} Bookings',
+              color: Colors.orange,
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildInterestedCrops(List<String> crops) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  // 2. THIS IS THE SECOND FIX: Full implementation for the helper methods.
+
+  Widget _buildHeader(ImporterProfileModel profile) {
+    return Row(
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text('Crops Interested In', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const CircleAvatar(
+          radius: 24,
+          backgroundColor: Colors.white,
+          child: Icon(Icons.business, color: Color(0xFFFF6600)),
         ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 40,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: crops.length,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemBuilder: (context, index) {
-              return Chip(label: Text(crops[index]));
-            },
-            separatorBuilder: (context, index) => const SizedBox(width: 8),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            profile.companyName,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+        ),
+        Chip(
+          avatar: const Icon(Icons.star, color: Colors.white, size: 16),
+          label: Text(
+            '${profile.trustScore}',
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: const Color(0xFFFF6600),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
         ),
       ],
     );
   }
 
-  Widget _buildRecentActivity(List<Map<String, String>> activities) {
-     return Padding(
-       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-       child: Column(
-         crossAxisAlignment: CrossAxisAlignment.start,
-         children: [
-           const Text('Recent Activity', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-           const SizedBox(height: 12),
-           Card(
-             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-             elevation: 2,
-             child: ListView.separated(
-               shrinkWrap: true,
-               physics: const NeverScrollableScrollPhysics(),
-               itemCount: activities.length,
-               itemBuilder: (context, index) {
-                 return ListTile(
-                   leading: const Icon(Icons.history, color: Colors.grey),
-                   title: Text(activities[index]['title']!),
-                 );
-               },
-               separatorBuilder: (context, index) => const Divider(height: 1, indent: 16, endIndent: 16),
-             ),
-           ),
-         ],
-       ),
-     );
-  }
-  
-  Widget _buildActionButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: ElevatedButton.icon(
-              icon: const Icon(Icons.store),
-              label: const Text('Browse Market'),
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  Widget _buildInfoCard(BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String value,
+    required Color color,
+  }) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: color.withOpacity(0.1),
+              child: Icon(icon, color: color, size: 28),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    value,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: OutlinedButton.icon(
-              icon: const Icon(Icons.upload_file),
-              label: const Text('Upload Documents'),
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-            ),
-          ),
-        ],
+            const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+          ],
+        ),
       ),
     );
   }

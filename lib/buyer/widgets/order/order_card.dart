@@ -40,16 +40,33 @@ class OrderCard extends StatelessWidget {
             const SizedBox(height: 8),
             _buildInfoRow(
               icon: Icons.calendar_today,
-              label: order.status == OrderStatus.delivered ? 'Delivered On' : 'Expected Delivery',
+              label: order.status == OrderStatus.delivered
+                  ? 'Delivered On'
+                  : (order.status == OrderStatus.preBooked ? 'Harvest ETA' : 'Expected Delivery'),
               value: DateFormat('dd MMM yyyy').format(order.deliveryDate),
             ),
+            if (order.status == OrderStatus.preBooked) ...[
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.purple.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'You are holding ${order.quantityTons} tons of this product.',
+                  style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 OutlinedButton(onPressed: () {}, child: const Text('View Details')),
                 const SizedBox(width: 8),
-                ElevatedButton(onPressed: () {}, child: const Text('Repeat Order')),
+                if (order.status != OrderStatus.preBooked)
+                  ElevatedButton(onPressed: () {}, child: const Text('Repeat Order')),
               ],
             )
           ],
@@ -58,6 +75,8 @@ class OrderCard extends StatelessWidget {
     );
   }
 
+  // --- THIS IS THE FIX ---
+  // The full implementation for the helper method has been added.
   Widget _buildInfoRow({required IconData icon, required String label, required String value}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,4 +1,10 @@
-enum OrderStatus { pending, inTransit, delivered, cancelled }
+enum OrderStatus {
+  pending,
+  inTransit,
+  delivered,
+  cancelled,
+  preBooked // <-- NEW STATUS
+}
 
 class OrderModel {
   final String id;

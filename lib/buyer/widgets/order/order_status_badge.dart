@@ -12,6 +12,12 @@ class OrderStatusBadge extends StatelessWidget {
     IconData icon;
 
     switch (status) {
+    // THIS IS THE FIX: Added the missing case for preBooked.
+      case OrderStatus.preBooked:
+        text = 'Pre-Booked';
+        color = Colors.purple;
+        icon = Icons.bookmark_added;
+        break;
       case OrderStatus.pending:
         text = 'Pending';
         color = Colors.orange;

@@ -1,56 +1,47 @@
-import 'package:cropsureconnect/buyer/controllers/dashboard_controller.dart';
-import 'package:cropsureconnect/buyer/views/documents_screen.dart';
-import 'package:cropsureconnect/buyer/views/home_content_screen.dart';
-import 'package:cropsureconnect/buyer/views/market_screen.dart';
-import 'package:cropsureconnect/buyer/views/orders_screen.dart';
-import 'package:cropsureconnect/buyer/views/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cropsureconnect/buyer/services/buyer_service.dart';
 
-class BuyerDashboardScreen extends StatefulWidget {
+// Import the controller that was missing
+
+
+// Import all the screens for the tabs
+import '../controllers/dashboard_controller.dart';
+import 'home_content_screen.dart';
+import 'market_screen.dart';
+import 'orders_screen.dart';
+import 'payment_screen.dart';
+import 'profile_screen.dart';
+
+// For better state management with GetX, this can be a StatelessWidget
+class BuyerDashboardScreen extends StatelessWidget {
   const BuyerDashboardScreen({super.key});
 
   @override
-  State<BuyerDashboardScreen> createState() => _BuyerDashboardScreenState();
-}
-
-class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
-  int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    // This is the correct place to initialize screen-specific dependencies.
-    // They are created once when this screen loads.
-    Get.put(BuyerService());
-    Get.put(DashboardController());
-  }
-
-  // List of the pages for each tab
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeContentScreen(),
-    MarketScreen(),
-    OrdersScreen(),
-    DocumentsScreen(),
-    ProfileScreen(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // THIS IS THE FIX:
+    // We create and register the DashboardController here.
+    // Get.put() ensures it's available for child screens like ProfileScreen.
+    final DashboardController controller = Get.put(DashboardController());
+
+    // This list holds all the screens for the bottom navigation bar.
+    final List<Widget> screens = [
+      const HomeContentScreen(),
+      const MarketScreen(),
+      const OrdersScreen(),
+      const PaymentScreen(),
+      const ProfileScreen(),
+    ];
+
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
+      // The Obx widget listens for changes in controller.tabIndex
+      // and automatically rebuilds the body with the correct screen.
+      body: Obx(() => screens[controller.tabIndex.value]),
+
+      bottomNavigationBar: Obx(() => BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_outlined),
-            activeIcon: Icon(Icons.dashboard),
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -64,9 +55,9 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
             label: 'Orders',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.folder_copy_outlined),
-            activeIcon: Icon(Icons.folder_copy),
-            label: 'Documents',
+            icon: Icon(Icons.payment_outlined),
+            activeIcon: Icon(Icons.payment),
+            label: 'Payment',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
@@ -74,14 +65,15 @@ class _BuyerDashboardScreenState extends State<BuyerDashboardScreen> {
             label: 'Profile',
           ),
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        // The state is now managed by the controller
+        currentIndex: controller.tabIndex.value,
+        onTap: controller.changeTab,
         backgroundColor: Colors.white,
-        selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: const Color(0xFFFF6600), // Alibaba Orange
+        unselectedItemColor: Colors.grey[600],
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
-      ),
+      )),
     );
   }
 }
