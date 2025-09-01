@@ -1,35 +1,38 @@
 name: cropsureconnect
 description: "A new Flutter project."
 publish_to: 'none'
-
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.3 <4.0.0' # Updated for broader compatibility
+  sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
-  # --- Existing Dependencies ---
+  # --- Firebase Services ---
   firebase_core: ^2.32.0
   firebase_auth: ^4.20.0
   cloud_firestore: ^4.17.5
+
+  # --- State Management ---
   get: ^4.6.6
-  cupertino_icons: ^1.0.8
-  intl: ^0.19.0 # Version adjusted for consistency
-  image_picker: ^1.1.2
-  file_picker: ^8.0.5
-  collection: ^1.18.0
-  fl_chart: ^0.68.0
   provider: ^6.1.2
 
-  # --- NEW DEPENDENCIES FOR PAYMENT PAGE ---
+  # --- UI & Animations ---
+  cupertino_icons: ^1.0.8
   google_fonts: ^6.2.1
-  animations: ^2.0.11
   lottie: ^3.1.2
+  animations: ^2.0.11
+  fl_chart: ^0.68.0
   flutter_slidable: ^3.1.0
+
+  # --- Utilities & Helpers ---
+  intl: ^0.19.0
+  image_picker: ^1.1.2
+  file_picker: ^8.0.5
   camera: ^0.11.0+1
+  collection: ^1.18.0
 
 dev_dependencies:
   flutter_test:
@@ -40,10 +43,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  # Declare your asset folders here for images and animations
   assets:
-    - assets/
     - assets/images/
     - assets/lottie/
-    # If you have sub-folders for images or Lottie animations, declare them
-    # - assets/images/
-    # - assets/animations/
+    # - assets/logos/ # Add other folders as needed

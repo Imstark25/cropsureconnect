@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
-import 'farmer_profile_model.dart';
+import '../models/farmer_profile_model.dart';
 
 
 class FarmerProfileController extends GetxController {

@@ -3,14 +3,14 @@
 import 'package:cropsureconnect/seller/settings/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cropsureconnect/seller/home_controller.dart';
+import 'package:cropsureconnect/seller/controller/home_controller.dart';
 
-import 'package:cropsureconnect/seller/farmer_profile_view.dart';
-import 'package:cropsureconnect/seller/payment_history_view.dart';
+import 'package:cropsureconnect/seller/views/farmer_profile_view.dart';
+import 'package:cropsureconnect/seller/views/payment_history_view.dart';
 
-import 'grap/status_report_view.dart';
-import 'home_model.dart';
-import 'language/language_selection_view.dart';
+import '../grap/status_report_view.dart';
+import '../models/home_model.dart';
+import '../language/language_selection_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});

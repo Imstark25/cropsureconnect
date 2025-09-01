@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cropsureconnect/seller/farmer_profile_controller.dart';
-import 'package:cropsureconnect/seller/edit_farmer_profile_view.dart';
+import 'package:cropsureconnect/seller/controller/farmer_profile_controller.dart';
+import 'package:cropsureconnect/seller/views/edit_farmer_profile_view.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:collection/collection.dart';
 
-import 'farmer_profile_model.dart';
+import '../models/farmer_profile_model.dart';
 
 class FarmerProfileView extends StatelessWidget {
   const FarmerProfileView({super.key});

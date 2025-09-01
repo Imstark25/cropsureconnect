@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cropsureconnect/seller/home_view.dart';
+import 'package:cropsureconnect/seller/views/home_view.dart';
 import 'dart:ui'; // Needed for the backdrop filter
 
 class OnboardingView extends StatelessWidget {

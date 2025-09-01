@@ -1,6 +1,6 @@
 // lib/seller/home_service.dart
 
-import 'home_model.dart';
+import '../models/home_model.dart';
 
 class HomeService {
   Future<Map<String, dynamic>> fetchMockData() async {

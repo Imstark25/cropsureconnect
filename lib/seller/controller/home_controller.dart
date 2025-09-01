@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 
 
-import 'home_model.dart';
-import 'home_service.dart';
+import '../models/home_model.dart';
+import '../services/home_service.dart';
 
 class HomeController extends GetxController {
   final HomeService _homeService = HomeService();
