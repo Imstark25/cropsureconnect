@@ -1,4 +1,6 @@
+import 'package:cropsureconnect/admin/admin_login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AdminDrawer extends StatelessWidget {
   final Function(int) onItemSelected;
@@ -42,14 +44,19 @@ class AdminDrawer extends StatelessWidget {
           _buildDrawerItem(
             icon: Icons.logout,
             text: 'Logout',
-            onTap: () {}, // Not yet implemented
+            onTap: () {
+              Get.to(() => const AdminLoginScreen());
+            }, // Not yet implemented
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDrawerItem({required IconData icon, required String text, required GestureTapCallback onTap}) {
+  Widget _buildDrawerItem(
+      {required IconData icon,
+      required String text,
+      required GestureTapCallback onTap}) {
     return ListTile(
       leading: Icon(icon),
       title: Text(text),

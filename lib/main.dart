@@ -1,3 +1,4 @@
+import 'package:cropsureconnect/admin/admin_checking_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
@@ -34,70 +35,75 @@ class MyApp extends StatelessWidget {
     final SettingsController settingsController = Get.find();
 
     return Obx(() => GetMaterialApp(
-      title: 'CropSureConnect',
+          title: 'CropSureConnect',
 
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: const Color(0xFF388E3C),
-        scaffoldBackgroundColor: const Color(0xFFF1F8E9),
-        textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF388E3C),
-          surface: const Color(0xFFF1F8E9),
-          brightness: Brightness.light,
-        ),
-        appBarTheme: AppBarTheme(
-          titleTextStyle: GoogleFonts.lato(
-            color: Colors.black87,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+          theme: ThemeData(
+            brightness: Brightness.light,
+            primaryColor: const Color(0xFF388E3C),
+            scaffoldBackgroundColor: const Color(0xFFF1F8E9),
+            textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF388E3C),
+              surface: const Color(0xFFF1F8E9),
+              brightness: Brightness.light,
+            ),
+            appBarTheme: AppBarTheme(
+              titleTextStyle: GoogleFonts.lato(
+                color: Colors.black87,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            // ✅ FIXED: Changed to CardThemeData
+            cardTheme: CardThemeData(
+              elevation: 2.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+            ),
+            useMaterial3: true,
           ),
-        ),
-        // ✅ FIXED: Changed to CardThemeData
-        cardTheme: CardThemeData(
-          elevation: 2.0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-        useMaterial3: true,
-      ),
 
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: const Color(0xFF66BB6A),
-        scaffoldBackgroundColor: const Color(0xFF121212),
-        textTheme: GoogleFonts.latoTextTheme(Theme.of(context).primaryTextTheme.apply(bodyColor: Colors.white70, displayColor: Colors.white)),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF66BB6A),
-          surface: const Color(0xFF121212),
-          brightness: Brightness.dark,
-        ),
-        appBarTheme: AppBarTheme(
-          titleTextStyle: GoogleFonts.lato(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            primaryColor: const Color(0xFF66BB6A),
+            scaffoldBackgroundColor: const Color(0xFF121212),
+            textTheme: GoogleFonts.latoTextTheme(Theme.of(context)
+                .primaryTextTheme
+                .apply(bodyColor: Colors.white70, displayColor: Colors.white)),
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF66BB6A),
+              surface: const Color(0xFF121212),
+              brightness: Brightness.dark,
+            ),
+            appBarTheme: AppBarTheme(
+              titleTextStyle: GoogleFonts.lato(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            // ✅ FIXED: Changed to CardThemeData
+            cardTheme: CardThemeData(
+              color: const Color(0xFF1F1F1F),
+              elevation: 2.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+            ),
+            useMaterial3: true,
           ),
-        ),
-        // ✅ FIXED: Changed to CardThemeData
-        cardTheme: CardThemeData(
-          color: const Color(0xFF1F1F1F),
-          elevation: 2.0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-        useMaterial3: true,
-      ),
 
-      themeMode: settingsController.isDarkMode.value
-          ? ThemeMode.dark
-          : ThemeMode.light,
+          themeMode: settingsController.isDarkMode.value
+              ? ThemeMode.dark
+              : ThemeMode.light,
 
-      translations: LocalizationService(),
-      locale: Get.deviceLocale,
-      fallbackLocale: const Locale('en', 'US'),
+          translations: LocalizationService(),
+          locale: Get.deviceLocale,
+          fallbackLocale: const Locale('en', 'US'),
 
-      home: const UserCheckingAuth(),
+          // home: const UserCheckingAuth(),// user page navigation
+          home: const AdminCheckingAuth(), //admin page navigation
 
-      debugShowCheckedModeBanner: false,
-    ));
+          debugShowCheckedModeBanner: false,
+        ));
   }
 }
