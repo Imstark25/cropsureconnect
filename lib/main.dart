@@ -100,8 +100,8 @@ class MyApp extends StatelessWidget {
           locale: Get.deviceLocale,
           fallbackLocale: const Locale('en', 'US'),
 
-          // home: const UserCheckingAuth(),// user page navigation
-          home: const AdminCheckingAuth(), //admin page navigation
+          home: const UserCheckingAuth(),// user page navigation
+          // home: const AdminCheckingAuth(), //admin page navigation
 
           debugShowCheckedModeBanner: false,
         ));
