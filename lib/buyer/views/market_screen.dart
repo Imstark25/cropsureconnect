@@ -1,4 +1,3 @@
-
 import 'package:cropsureconnect/buyer/models/market_crop_model.dart';
 import 'package:cropsureconnect/buyer/widgets/market/available_crop_card.dart';
 import 'package:flutter/cupertino.dart';

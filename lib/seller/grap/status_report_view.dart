@@ -10,8 +10,7 @@ class StatusReportView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StatusReportController controller = Get.put(StatusReportController());
-    final Color primaryColor = Colors.green.shade700;
-    final Color secondaryColor = Colors.purple.shade700;
+  // ...existing code...
 
     return Scaffold(
       backgroundColor: context.theme.scaffoldBackgroundColor,

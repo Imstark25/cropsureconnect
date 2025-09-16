@@ -1,14 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+// ...existing code...
+// ...existing code...
 import 'package:get/get.dart';
 
 import '../models/importer_profile_model.dart';
-import '../services/buyer_service.dart';
+// ...existing code...
 
 
 class ProfileController extends GetxController {
-  final BuyerService _buyerService = Get.find<BuyerService>();
-  final User? _currentUser = FirebaseAuth.instance.currentUser;
+// ...existing code...
 
   final RxBool isLoading = true.obs;
   final Rxn<ImporterProfileModel> profile = Rxn<ImporterProfileModel>();

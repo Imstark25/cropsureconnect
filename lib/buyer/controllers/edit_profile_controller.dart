@@ -63,7 +63,7 @@ class EditProfileController extends GetxController {
     };
 
     // The '!' is safe here because we've already checked for null
-    await _buyerService.updateBuyerProfile(_currentUser!.uid, updatedData);
+  await _buyerService.updateBuyerProfile(_currentUser.uid, updatedData);
     isLoading.value = false;
 
     Get.back(result: true);

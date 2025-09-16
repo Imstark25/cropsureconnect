@@ -5,7 +5,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import 'package:camera/camera.dart';
-import 'package:cropsureconnect/buyer/widgets/payment/slideable_notification.dart';
+// ...existing code...
 
 class PaymentController extends GetxController {
   final RxBool showNotification = false.obs;
